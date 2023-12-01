@@ -4,9 +4,17 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 func Solve() (int, int) {
+
+	var solutionString string
+	var secondSolutionString string
+
+	var solution int
+	var secondSolution int
+
 	file, err := os.Open("day1/input")
 
 	if err != nil {
@@ -18,30 +26,29 @@ func Solve() (int, int) {
 	scanner := bufio.NewScanner(file)
 
 	for scanner.Scan() {
-		fmt.Println(numbersInString(scanner.Text()))
+		// first half
+		var solutionInt int
+		solutionString = addFirstLast(numbersInString(scanner.Text()))
+		solutionInt, err = strconv.Atoi(solutionString)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		solution += solutionInt
 
-		//if scanner.Text() != "" {
-		//	// non-empty line detected, convert to int
-		//	val, err := strconv.Atoi(scanner.Text())
-		//
-		//	if err != nil {
-		//		fmt.Println(err)
-		//		os.Exit(1)
-		//	}
-		//
-		//	sum += val
-		//} else if scanner.Text() == "" {
-		//	// empty line detected, this means end of set
-		//	// append 'sum' to the list of sums
-		//	sums = append(sums, sum)
-		//	sum = 0
-		//}
+		// second half
+		// clean up the string first with cleanupInputRow()
+		// this turns "one2three" -> "123"
+		var secondSolutionInt int
+		cleanString := cleanupInputRow(scanner.Text())
+
+		secondSolutionString = addFirstLast(numbersInString(cleanString))
+		secondSolutionInt, err = strconv.Atoi(secondSolutionString)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		secondSolution += secondSolutionInt
 	}
-
-	// all lines have been processed
-
-	//	threeBiggest := findNLargestNumbers(sums, 3)
-	//
-	//	return findLargestNumber(sums), sumSlice(threeBiggest)
-	os.Exit(0)
+	return solution, secondSolution
 }

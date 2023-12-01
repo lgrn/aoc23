@@ -1,5 +1,5 @@
-# aoc22
-Advent of Code 2022
+# aoc23
+Advent of Code 2023
 
 ## How to run
 
